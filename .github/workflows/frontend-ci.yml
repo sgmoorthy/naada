@@ -4,19 +4,19 @@ on:
   push:
     branches: [master]
     paths:
-      - 'src/**'
-      - 'index.html'
-      - 'vite.config.js'
-      - 'package.json'
-      - 'package-lock.json'
+      - 'frontend/src/**'
+      - 'frontend/index.html'
+      - 'frontend/vite.config.js'
+      - 'frontend/package.json'
+      - 'frontend/package-lock.json'
   pull_request:
     branches: [master]
     paths:
-      - 'src/**'
-      - 'index.html'
-      - 'vite.config.js'
-      - 'package.json'
-      - 'package-lock.json'
+      - 'frontend/src/**'
+      - 'frontend/index.html'
+      - 'frontend/vite.config.js'
+      - 'frontend/package.json'
+      - 'frontend/package-lock.json'
 
 jobs:
   build:
@@ -32,12 +32,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
       - name: Install dependencies
+        working-directory: ./frontend
         run: npm ci
       - name: Build
+        working-directory: ./frontend
         run: npm run build
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: dist-node-${{ matrix.node-version }}
-          path: dist/
+          path: frontend/dist/
           retention-days: 3

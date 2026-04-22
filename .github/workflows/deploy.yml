@@ -24,9 +24,14 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install test dependencies
-        run: pip install pytest numpy
+        run: |
+          pip install pytest numpy hatchling build
+          pip install -e packages/deepraaga-core
+          pip install -e packages/deepraaga-preprocess
+          pip install -e packages/deepraaga-models
+          pip install -e packages/deepraaga-api
       - name: Run tests
-        run: pytest test/ -v --tb=short --ignore=test/test_kanada_generation.py
+        run: pytest packages/deepraaga-api/test/ -v --tb=short
 
   build-and-deploy:
     name: Build & Deploy Frontend
@@ -44,8 +49,10 @@ jobs:
           node-version: 20
           cache: npm
       - name: Install dependencies
+        working-directory: ./frontend
         run: npm ci
       - name: Build
+        working-directory: ./frontend
         run: npm run build
         env:
           VITE_BASE_URL: /naada/
@@ -54,7 +61,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './frontend/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
