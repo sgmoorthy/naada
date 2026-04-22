@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "deepraaga-preprocess"
+version = "0.1.0"
+description = "Data ingestion layer for DeepRaaga. Extracted from the original DeepRaaga project for PyPI."
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "Surya G", email = "author@example.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "deepraaga-core",
+    "music21",
+    "librosa",
+    "numpy"
+]
+
+[project.urls]
+Homepage = "https://github.com/sgmoorthy/DeepRaaga"
+Repository = "https://github.com/sgmoorthy/DeepRaaga"

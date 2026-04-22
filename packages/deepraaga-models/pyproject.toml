@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "deepraaga-models"
+version = "0.1.0"
+description = "Neural network generation backend for DeepRaaga. Extracted from the original DeepRaaga project for PyPI."
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "Surya G", email = "author@example.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "deepraaga-core",
+    "torch",
+    "numpy"
+]
+
+[project.urls]
+Homepage = "https://github.com/sgmoorthy/DeepRaaga"
+Repository = "https://github.com/sgmoorthy/DeepRaaga"

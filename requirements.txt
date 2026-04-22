@@ -1,0 +1,10 @@
+# naada — Python Backend Dependencies
+# Install: pip install -r requirements.txt
+# For development extras: pip install -e ".[dev]"
+
+flask>=3.0.0
+flask-cors>=4.0.0
+torch>=2.1.0
+numpy>=1.26.0
+music21>=9.1.0
+librosa>=0.10.1

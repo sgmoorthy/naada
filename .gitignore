@@ -1,0 +1,93 @@
+# ─────────────────────────────────────────────
+# Python
+# ─────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.Python
+
+# Virtual environments
+venv/
+env/
+.env/
+.venv/
+ENV/
+venv_new/
+.venv_new/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+MANIFEST
+
+# ─────────────────────────────────────────────
+# ML Artifacts — use GitHub Releases or HuggingFace Hub
+# ─────────────────────────────────────────────
+*.pth
+*.pt
+*.pkl
+*.h5
+*.hdf5
+*.ckpt
+*.safetensors
+
+# ─────────────────────────────────────────────
+# Dataset — generated or downloaded externally
+# ─────────────────────────────────────────────
+data/raw/
+data/processed/
+data/train/
+data/val/
+data/test/
+data/DeepRaaga-Dataset/Melakarta/*/midi/*.mid
+data/DeepRaaga-Dataset/Melakarta/*/musicxml/*.xml
+
+# Training artifacts
+results/
+*.log
+runs/
+wandb/
+
+# ─────────────────────────────────────────────
+# Node / Frontend
+# ─────────────────────────────────────────────
+node_modules/
+dist/
+.npm
+*.local
+
+# ─────────────────────────────────────────────
+# IDE & Editor
+# ─────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# ─────────────────────────────────────────────
+# Environment & Secrets
+# ─────────────────────────────────────────────
+.env
+.env.local
+.env.production
+secrets.json
+
+# ─────────────────────────────────────────────
+# OS
+# ─────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─────────────────────────────────────────────
+# Testing
+# ─────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/

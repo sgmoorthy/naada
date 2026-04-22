@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "deepraaga-api"
+version = "0.1.0"
+description = "Flask-based API serving endpoints for DeepRaaga music generation. Extracted from the original DeepRaaga project for PyPI."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "deepraaga-core",
+    "flask",
+    "flask-cors"
+]
+
+[project.optional-dependencies]
+models = ["deepraaga-models", "torch", "numpy"]
+
+[project.scripts]
+deepraaga-api = "deepraaga_api.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/sgmoorthy/DeepRaaga"
+Repository = "https://github.com/sgmoorthy/DeepRaaga"
