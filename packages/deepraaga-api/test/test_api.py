@@ -1,21 +1,25 @@
-import urllib.request
-import json
-import time
+import pytest
+from deepraaga_api.serve import app
 
-url = "http://localhost:8000/api/generate"
-data = {
-    "raga": "Mayamalavagowla",
-    "duration": 10
-}
-headers = {'Content-Type': 'application/json'}
+@pytest.fixture
+def client():
+    app.config['TESTING'] = True
+    with app.test_client() as client:
+        yield client
 
-req = urllib.request.Request(url, data=json.dumps(data).encode('utf-8'), headers=headers)
+def test_index_route(client):
+    """Test that the index route returns a 200 status and correct message."""
+    response = client.get('/')
+    assert response.status_code == 200
+    assert b"Deep Raga API is running" in response.data
 
-print(f"Testing API at {url}...")
-try:
-    with urllib.request.urlopen(req) as response:
-        print("Status Code:", response.getcode())
-        result = json.load(response)
-        print("Response:", json.dumps(result, indent=2))
-except Exception as e:
-    print("Error:", e)
+def test_generate_route_fallback(client):
+    """Test the generate route fallback when models aren't loaded."""
+    response = client.post('/api/generate', json={
+        "raga": "Mayamalavagowla",
+        "duration": 10
+    })
+    assert response.status_code == 200
+    data = response.get_json()
+    assert 'notes' in data
+    assert 'C4' in data['notes']
