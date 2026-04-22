@@ -1,6 +1,8 @@
 import json
-import numpy as np
 import os
+
+import numpy as np
+
 
 def load_raga_data(json_path):
     """Load and parse the raga-swaras.json file"""
@@ -12,7 +14,7 @@ def swara_to_midi(swara):
     """Convert Carnatic swara to MIDI note number"""
     # Base MIDI note number for Sa (C4)
     base_note = 60
-    
+
     # Swara to semitone mapping
     swara_map = {
         'S': 0,  # Sa
@@ -32,7 +34,7 @@ def swara_to_midi(swara):
         'N3': 12, # Kakali Nishadam
         "S'": 12  # Upper Sa
     }
-    
+
     # Remove any whitespace and handle upper octave notation
     swara = swara.strip()
     return base_note + swara_map.get(swara, 0)
@@ -47,45 +49,45 @@ def create_raga_features(raga):
     # Convert ascending and descending patterns to MIDI notes
     arohanam = convert_pattern_to_midi(raga['ascending'])
     avarohanam = convert_pattern_to_midi(raga['descending'])
-    
+
     # Combine both patterns and pad/truncate to fixed length
     combined = arohanam + avarohanam
     target_length = 128  # Match the input_size in train.py
-    
+
     if len(combined) < target_length:
         # Pad with zeros if shorter
         combined = combined + [0] * (target_length - len(combined))
     else:
         # Truncate if longer
         combined = combined[:target_length]
-    
+
     return np.array(combined, dtype=np.float32)
 
 def preprocess_ragas(json_path, output_dir):
     """Preprocess all ragas and save as numpy arrays"""
     ragas = load_raga_data(json_path)
-    
+
     # Create features for each raga
     midi_features = []
     labels = []
-    
+
     for i, raga in enumerate(ragas):
         feature = create_raga_features(raga)
         midi_features.append(feature)
         labels.append(i)
-    
+
     # Convert to numpy arrays
     midi_features = np.array(midi_features)
     labels = np.array(labels)
-    
+
     # Create processed directory if it doesn't exist
     processed_dir = os.path.join(output_dir, 'processed')
     os.makedirs(processed_dir, exist_ok=True)
-    
+
     # Save the preprocessed data
     np.save(os.path.join(processed_dir, 'raga_midi_features.npy'), midi_features)
     np.save(os.path.join(processed_dir, 'raga_labels.npy'), labels)
-    
+
     return len(ragas)
 
 if __name__ == '__main__':
