@@ -80,8 +80,6 @@ jobs:
     environment:
       name: pypi
       url: https://pypi.org/p/deepraaga-core
-    permissions:
-      id-token: write
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -92,6 +90,8 @@ jobs:
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
           packages-dir: dist/
 
   # Publish deepraaga-preprocess (depends on core)
@@ -103,8 +103,6 @@ jobs:
     environment:
       name: pypi
       url: https://pypi.org/p/deepraaga-preprocess
-    permissions:
-      id-token: write
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -115,6 +113,8 @@ jobs:
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
           packages-dir: dist/
 
   # Publish deepraaga-models (depends on core)
@@ -126,8 +126,6 @@ jobs:
     environment:
       name: pypi
       url: https://pypi.org/p/deepraaga-models
-    permissions:
-      id-token: write
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -138,6 +136,8 @@ jobs:
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
           packages-dir: dist/
 
   # Publish deepraaga-api (depends on core, optionally models)
@@ -149,8 +149,6 @@ jobs:
     environment:
       name: pypi
       url: https://pypi.org/p/deepraaga-api
-    permissions:
-      id-token: write
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -161,4 +159,6 @@ jobs:
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
           packages-dir: dist/
