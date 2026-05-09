@@ -8,17 +8,21 @@
 
 ![UI Screenshot](images/deepraga_ui.png)
 
-[![PyPI version](https://img.shields.io/pypi/v/naada.svg?color=saffron&logo=pypi&logoColor=white)](https://pypi.org/project/naada/)
+[![PyPI - Core](https://img.shields.io/pypi/v/deepraaga-core.svg?color=saffron&logo=pypi&logoColor=white)](https://pypi.org/project/deepraaga-core/)
+[![PyPI - Preprocess](https://img.shields.io/pypi/v/deepraaga-preprocess.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/deepraaga-preprocess/)
+[![PyPI - Models](https://img.shields.io/pypi/v/deepraaga-models.svg?color=green&logo=pypi&logoColor=white)](https://pypi.org/project/deepraaga-models/)
+[![PyPI - API](https://img.shields.io/pypi/v/deepraaga-api.svg?color=purple&logo=pypi&logoColor=white)](https://pypi.org/project/deepraaga-api/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![CI — Python](https://github.com/sgmoorthy/naada/actions/workflows/python-ci.yml/badge.svg)](https://github.com/sgmoorthy/naada/actions)
 [![CI — Frontend](https://github.com/sgmoorthy/naada/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/sgmoorthy/naada/actions)
+[![CI — PyPI Publish](https://github.com/sgmoorthy/naada/actions/workflows/pypi-publish.yml/badge.svg)](https://github.com/sgmoorthy/naada/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 *naada is an open-source AI framework dedicated to modeling the intricate structural beauty of Carnatic music using deep learning. By harmonizing traditional heritage with modern ML paradigms, we strive to build a computational bridge to India's rich musical legacy.*
 
-[**Live Demo →**](https://sgmoorthy.github.io/naada/) | [**PyPI →**](https://pypi.org/project/naada/) | [**Blog →**](https://sgmoorthy.github.io/naada/#/blog)
+[**Live Demo →**](https://sgmoorthy.github.io/naada/) | [**PyPI Packages →**](https://pypi.org/search/?q=deepraaga) | [**Tutorial →**](examples/DeepRaaga_Tutorial.ipynb) | [**Blog →**](https://sgmoorthy.github.io/naada/#/blog)
 
 </div>
 
@@ -115,13 +119,14 @@ npm run dev
 
 ## ⚙️ CI/CD
 
-naada uses three GitHub Actions pipelines:
+naada uses four GitHub Actions pipelines:
 
 | Workflow | Trigger | What it does |
 |---|---|---|
 | `python-ci.yml` | PR touching Python files | ruff lint + pytest on Python 3.10 & 3.11 |
 | `frontend-ci.yml` | PR touching frontend | npm install + vite build verification |
-| `deploy.yml` | Push to `master` | Tests → Build → Deploy to GitHub Pages |
+| `pypi-publish.yml` | Tag push (`v*`) or release | Build & publish all 4 PyPI packages |
+| `deploy.yml` | Push to `master` | Tests → Build frontend artifact |
 
 ---
 
@@ -245,7 +250,7 @@ git push origin feature/your-raga-magic
   title     = {naada: An AI Framework for Learning and Generating Carnatic Ragas},
   year      = {2026},
   url       = {https://github.com/sgmoorthy/naada},
-  note      = {PyPI: https://pypi.org/project/naada/}
+  note      = {PyPI: https://pypi.org/project/deepraaga-core/}
 }
 ```
 
