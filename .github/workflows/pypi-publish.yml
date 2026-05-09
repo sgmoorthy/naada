@@ -31,18 +31,44 @@ jobs:
           python -m pip install --upgrade pip
           pip install build
 
-      - name: Build packages
-        run: |
-          python -m build packages/deepraaga-core
-          python -m build packages/deepraaga-preprocess
-          python -m build packages/deepraaga-models
-          python -m build packages/deepraaga-api
+      - name: Build deepraaga-core
+        run: python -m build packages/deepraaga-core
 
-      - name: Upload package artifacts
+      - name: Build deepraaga-preprocess
+        run: python -m build packages/deepraaga-preprocess
+
+      - name: Build deepraaga-models
+        run: python -m build packages/deepraaga-models
+
+      - name: Build deepraaga-api
+        run: python -m build packages/deepraaga-api
+
+      - name: Upload core artifact
         uses: actions/upload-artifact@v4
         with:
-          name: packages
-          path: packages/*/dist/*
+          name: deepraaga-core
+          path: packages/deepraaga-core/dist/
+          retention-days: 1
+
+      - name: Upload preprocess artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deepraaga-preprocess
+          path: packages/deepraaga-preprocess/dist/
+          retention-days: 1
+
+      - name: Upload models artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deepraaga-models
+          path: packages/deepraaga-models/dist/
+          retention-days: 1
+
+      - name: Upload api artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deepraaga-api
+          path: packages/deepraaga-api/dist/
           retention-days: 1
 
   # Publish deepraaga-core (no dependencies)
@@ -57,16 +83,16 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - name: Download artifacts
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: packages
-          path: dist
+          name: deepraaga-core
+          path: dist/
 
-      - name: Publish deepraaga-core to PyPI
+      - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          packages-dir: dist/packages/deepraaga-core/dist/
+          packages-dir: dist/
 
   # Publish deepraaga-preprocess (depends on core)
   publish-preprocess:
@@ -80,16 +106,16 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - name: Download artifacts
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: packages
-          path: dist
+          name: deepraaga-preprocess
+          path: dist/
 
-      - name: Publish deepraaga-preprocess to PyPI
+      - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          packages-dir: dist/packages/deepraaga-preprocess/dist/
+          packages-dir: dist/
 
   # Publish deepraaga-models (depends on core)
   publish-models:
@@ -103,16 +129,16 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - name: Download artifacts
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: packages
-          path: dist
+          name: deepraaga-models
+          path: dist/
 
-      - name: Publish deepraaga-models to PyPI
+      - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          packages-dir: dist/packages/deepraaga-models/dist/
+          packages-dir: dist/
 
   # Publish deepraaga-api (depends on core, optionally models)
   publish-api:
@@ -126,13 +152,13 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - name: Download artifacts
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: packages
-          path: dist
+          name: deepraaga-api
+          path: dist/
 
-      - name: Publish deepraaga-api to PyPI
+      - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          packages-dir: dist/packages/deepraaga-api/dist/
+          packages-dir: dist/
