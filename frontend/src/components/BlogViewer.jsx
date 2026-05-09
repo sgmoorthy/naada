@@ -6,13 +6,13 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 // Import the raw markdown file directly via Vite
-import musicAsCodeBlog from '../../docs/blog/07-music-as-code-philosophy.md?raw';
-import contributeBlog from '../../docs/blog/06-how-to-contribute.md?raw';
-import deepraagaCodeInternalsBlog from '../../docs/blog/05-deepraaga-code-internals.md?raw';
-import futureTalaBlog from '../../docs/blog/04-the-future-of-tala.md?raw';
-import democratizeBlog from '../../docs/blog/03-democratizing-music-education.md?raw';
-import pmDiscussionBlog from '../../docs/blog/02-pm-discussion-vision.md?raw';
-import deepDiveBlog from '../../docs/blog/01-deep-dive-ai-carnatic.md?raw';
+import musicAsCodeBlog from '../../../docs/blog/07-music-as-code-philosophy.md?raw';
+import contributeBlog from '../../../docs/blog/06-how-to-contribute.md?raw';
+import deepraagaCodeInternalsBlog from '../../../docs/blog/05-deepraaga-code-internals.md?raw';
+import futureTalaBlog from '../../../docs/blog/04-the-future-of-tala.md?raw';
+import democratizeBlog from '../../../docs/blog/03-democratizing-music-education.md?raw';
+import pmDiscussionBlog from '../../../docs/blog/02-pm-discussion-vision.md?raw';
+import deepDiveBlog from '../../../docs/blog/01-deep-dive-ai-carnatic.md?raw';
 
 const blogs = [
   {
