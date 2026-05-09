@@ -34,25 +34,64 @@ Carnatic music cannot be reduced to simple discrete notes — it is defined by t
 
 ## 🏗️ Architecture
 
-naada is decoupled into two primary subsystems:
+naada is now organized as a **modular Python monorepo** with 4 PyPI packages:
 
-### 1. 🐍 Neural Backend (`naada` PyPI package)
-- **Data Ingestion:** MIDI/MusicXML → `NoteSequence` with pitch bends, timing, and Gamaka annotations
-- **Deep Learning Core:** LSTM + Multi-head Attention conditioned on Raga grammar constraints
-- **API Layer:** Flask REST service exposing `.generate()` endpoints
+### � PyPI Packages
 
-### 2. ⚛️ Interaction Layer (React + Vite SPA)
+| Package | Install | Purpose | Dependencies |
+|---------|---------|---------|--------------|
+| `deepraaga-core` | `pip install deepraaga-core` | Base domain models and abstractions | None |
+| `deepraaga-preprocess` | `pip install deepraaga-preprocess` | MIDI/MusicXML ingestion, vocabulary builders | `deepraaga-core`, `music21`, `librosa` |
+| `deepraaga-models` | `pip install deepraaga-models` | LSTM + Attention architectures, training | `deepraaga-core`, `torch` |
+| `deepraaga-api` | `pip install deepraaga-api` | Flask REST service | `deepraaga-core`, `flask` |
+
+**Install all packages:**
+```bash
+pip install deepraaga-core deepraaga-preprocess deepraaga-models deepraaga-api
+```
+
+### ⚛️ Interaction Layer (React + Vite SPA)
 - Glassmorphic Single Page Application with Raga playback via WebMIDI/Tone.js
 - Interactive Raga Encyclopedia for all 72 Melakarta parent scales
 - Integrated technical blog — styled after Google's *"The Keyword"*
 
 ---
 
+## 📦 PyPI Publishing
+
+Packages are published automatically via GitHub Actions when you push a tag:
+
+```bash
+# Tag and push to trigger PyPI publish
+git tag v0.1.2
+git push origin v0.1.2
+```
+
+See `.github/workflows/pypi-publish.yml` for the automated publishing workflow.
+
+---
+
 ## 🚀 Quick Start
 
-### Install the Python library
+### Install from PyPI (Recommended)
 ```bash
-pip install naada
+# Install individual packages as needed
+pip install deepraaga-core          # Base models only
+pip install deepraaga-preprocess    # Data processing
+pip install deepraaga-models        # Neural networks + training
+pip install deepraaga-api           # REST API server
+
+# Or install all packages
+pip install deepraaga-core deepraaga-preprocess deepraaga-models deepraaga-api
+```
+
+### Quick API Server Start
+```bash
+# After installing deepraaga-api
+pip install deepraaga-api
+deepraaga-api --port 8000
+
+# API running at http://localhost:8000
 ```
 
 ### Or clone for full-stack development
@@ -60,12 +99,14 @@ pip install naada
 git clone https://github.com/sgmoorthy/naada.git
 cd naada
 
-# Backend
-python -m venv .venv
-source .venv/bin/activate  # Windows: .\.venv\Scripts\activate
-pip install -r requirements.txt
+# Install packages in development mode
+pip install -e packages/deepraaga-core
+pip install -e packages/deepraaga-preprocess
+pip install -e packages/deepraaga-models
+pip install -e packages/deepraaga-api
 
 # Frontend
+cd frontend
 npm install
 npm run dev
 ```
@@ -106,15 +147,36 @@ Creates `data/DeepRaaga-Dataset/Melakarta/` with folders for all 72 parent ragas
 
 ## 🧠 Training a Raga Model
 
+### Using the Python API
+
+```python
+from deepraaga_preprocess.data_processor import DataProcessor
+from deepraaga_models.model import DeepRagaModel
+from deepraaga_models.train import train_model
+import torch
+
+# 1. Preprocess MIDI data
+processor = DataProcessor()
+processor.process_dataset('data/raw', 'data/processed')
+
+# 2. Initialize and train model
+vocab_size = len(processor.note_to_int)
+model = DeepRagaModel(vocab_size, embedding_dim=64, hidden_size=256, num_layers=2)
+
+# 3. Train (see examples/DeepRaaga_Tutorial.ipynb for full training loop)
+```
+
+### Command Line Training
+
 ```bash
 # Step 1: Preprocess raw MIDI data
-python data/convert_data.py
+python -m deepraaga_preprocess.data_processor
 
 # Step 2: Train the LSTM+Attention model
-python model/train.py
+python -m deepraaga_models.train
 
 # Step 3: Serve the REST API
-python app.py
+deepraaga-api --port 8000
 # → API running at http://localhost:8000
 ```
 
@@ -124,6 +186,16 @@ curl -X POST http://localhost:8000/api/generate \
   -H "Content-Type: application/json" \
   -d '{"raga": "Bhairavi", "duration": 30, "temperature": 0.8}'
 ```
+
+---
+
+## 📓 Tutorial Notebook
+
+For a step-by-step walkthrough with code examples, see:
+**[examples/DeepRaaga_Tutorial.ipynb](examples/DeepRaaga_Tutorial.ipynb)**
+
+Or open directly in Google Colab:
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sgmoorthy/naada/blob/master/examples/DeepRaaga_Tutorial.ipynb)
 
 ---
 
