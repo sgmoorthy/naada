@@ -8,7 +8,6 @@ on:
       - 'frontend/index.html'
       - 'frontend/vite.config.js'
       - 'frontend/package.json'
-      - 'frontend/package-lock.json'
   pull_request:
     branches: [master]
     paths:
@@ -16,7 +15,6 @@ on:
       - 'frontend/index.html'
       - 'frontend/vite.config.js'
       - 'frontend/package.json'
-      - 'frontend/package-lock.json'
 
 jobs:
   build:
@@ -30,10 +28,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: npm
       - name: Install dependencies
         working-directory: ./frontend
-        run: npm ci
+        run: npm install
       - name: Build
         working-directory: ./frontend
         run: npm run build
