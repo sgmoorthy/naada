@@ -1,18 +1,9 @@
-name: Deploy to GitHub Pages
+name: Build and Test
 
 on:
   push:
     branches: [master]
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
 
 jobs:
   test-python:
@@ -33,12 +24,9 @@ jobs:
       - name: Run tests
         run: pytest packages/deepraaga-api/test/ -v --tb=short
 
-  build-and-deploy:
-    name: Build & Deploy Frontend
+  build-frontend:
+    name: Build Frontend
     needs: test-python
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -55,12 +43,8 @@ jobs:
         run: npm run build
         env:
           VITE_BASE_URL: /naada/
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
+          name: frontend-build
           path: './frontend/dist'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
